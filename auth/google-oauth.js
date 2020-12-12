@@ -13,6 +13,7 @@ const TOKEN_PATH = 'auth/youtube-nodejs-quickstart.json';
  * Store token to disk be used in later program executions.
  *
  * @param {Object} token The token to store to disk.
+ *
  */
 function storeToken(token) {
   fs.writeFile(TOKEN_PATH, JSON.stringify(token), (err) => {
@@ -21,6 +22,12 @@ function storeToken(token) {
   });
 }
 
+/**
+ * GetOauth2Client
+ *
+ * @returns {OAuth2} A google OAuth2client Object
+ *
+ */
 function getOauth2Client() {
   const credentials = JSON.parse(process.env.CREDENTIALS);
   const oauth2Client = new OAuth2(
@@ -31,6 +38,13 @@ function getOauth2Client() {
   return oauth2Client;
 }
 
+/**
+ * GetUrlOAuth
+ *
+ * @param {OAuth2} oauth2Client The client OAuth instance
+ * @returns {string} A url to the user give the consent and authenticate the app
+ *
+ */
 function getUrlOAuth(oauth2Client) {
   return oauth2Client.generateAuthUrl({
     access_type: 'offline',
@@ -38,6 +52,14 @@ function getUrlOAuth(oauth2Client) {
   });
 }
 
+
+/**
+ * OAuthHandler
+ *
+ * @param {string} code The code return by the google OAuth.
+ * @param {OAuth2} oauth2Client The client OAuth instance
+ *
+ */
 function oAuthHandler(code, oauth2Client) {
   oauth2Client.getToken(code, async function (err, token) {
     if (err) {
@@ -47,8 +69,6 @@ function oAuthHandler(code, oauth2Client) {
     oauth2Client.credentials = token;
     storeToken(token);
     // TODO config cron
-    // TODO validate if there is some secret leaked
-    // TODO rewrite the docs comments
     // TODO add twitter hook to write in video description the name of the user that retweets the video tweet
     const views = await VIDEO_JOBS.getVideoViews(
       oauth2Client,
