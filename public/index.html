@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>YT-TITLE-UPDATE-CRON-JOB API</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,900;1,300&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./style.css" />
+    <link
+      rel="shortcut icon"
+      href="https://www.youtube.com/s/desktop/0f786ae6/img/favicon.ico"
+      type="image/x-icon"
+    />
+  </head>
+  <body>
+    <section class="main">
+      <h1 class="main__title">YT-TITLE-UPDATE-CRON-JOB API</h1>
+      <h3 class="main__sub-title">
+        O yt-title-update-cron-job é um webserver que atualiza os vídeos do
+        canal do usuário usando a api do Youtube
+      </h3>
+      <div class="main__endpoints endpoints">
+        <span>Endpoints:</span>
+        <ul class="endpoints__list">
+          <li class="endpoints__item">
+            <code>/auth</code>
+            --
+            <a href="/auth"> Auth google </a>
+          </li>
+          <li class="endpoints__item">
+            <code>/oauth2callback</code>
+            --
+            <a href="/oauth2callback">
+              Retorno do auth do google pega o token e inicia o job
+            </a>
+          </li>
+        </ul>
+      </div>
+      <a
+        class="main__link"
+        href="https://github.com/DioLps/yt-title-update-cron-job"
+      >
+        GITHUB
+      </a>
+    </section>
+  </body>
+</html>
