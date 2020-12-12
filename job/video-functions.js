@@ -1,3 +1,28 @@
+function _genericUpdateVideoSnippetInfo(
+  service,
+  auth,
+  VIDEO_ID,
+  snippet,
+  updatedPropToken
+) {
+  return new Promise((resolve, reject) => {
+    service.videos.update(
+      {
+        auth,
+        part: 'snippet',
+        resource: {
+          id: VIDEO_ID,
+          snippet,
+        },
+      },
+      function (err, response) {
+        if (err) return reject(err);
+        resolve(response.data.snippet[updatedPropToken]);
+      }
+    );
+  });
+}
+
 /**
  * GetVideoViews
  *
@@ -51,7 +76,35 @@ function getVideoSnippet(auth, VIDEO_ID, google) {
 }
 
 /**
- * UpdateVideoTile (async)
+ * UpdateVideoDescription (async)
+ *
+ * @param {OAuth2Client} auth A client with valid credentials
+ * @param {string} VIDEO_ID The id of the youtube video
+ * @param {Array<string>} usersNames Number of usersname
+ * @param {GoogleApis} google An instance of google apis lib
+ * @returns {Promise<string>} Promise with the Description
+ *
+ */
+async function updateVideoDescription(auth, VIDEO_ID, usersNames, google) {
+  const service = google.youtube('v3');
+  const snippet = await getVideoSnippet(auth, VIDEO_ID, google);
+  usersNames.forEach((usersName) => {
+    const found = snippet.description.includes(usersName);
+    if (!found) {
+      snippet.description += `\n@${usersName}`;
+    }
+  });
+  return _genericUpdateVideoSnippetInfo(
+    service,
+    auth,
+    VIDEO_ID,
+    snippet,
+    'description'
+  );
+}
+
+/**
+ * UpdateVideoTitle (async)
  *
  * @param {OAuth2Client} auth A client with valid credentials
  * @param {string} VIDEO_ID The id of the youtube video
@@ -64,22 +117,13 @@ async function updateVideoTitle(auth, VIDEO_ID, views, google) {
   const service = google.youtube('v3');
   const snippet = await getVideoSnippet(auth, VIDEO_ID, google);
   snippet.title = `Este vídeo tem ${views} views`;
-  return new Promise((resolve, reject) => {
-    service.videos.update(
-      {
-        auth,
-        part: 'snippet',
-        resource: {
-          id: VIDEO_ID,
-          snippet,
-        },
-      },
-      function (err, response) {
-        if (err) return reject(err);
-        resolve(response.data.snippet.title);
-      }
-    );
-  });
+  return _genericUpdateVideoSnippetInfo(
+    service,
+    auth,
+    VIDEO_ID,
+    snippet,
+    'title'
+  );
 }
 
-module.exports = { getVideoViews, updateVideoTitle };
+module.exports = { getVideoViews, updateVideoTitle, updateVideoDescription };

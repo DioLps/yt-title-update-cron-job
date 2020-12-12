@@ -5,6 +5,7 @@ const OAuth2 = google.auth.OAuth2;
 const fs = require('fs');
 
 const VIDEO_JOBS = require('../job/video-functions');
+const TWITTER_HANDLER = require('../twitter-api/twitter-handler');
 
 const VIDEO_ID = process.env.VIDEO_ID;
 const SCOPES = ['https://www.googleapis.com/auth/youtube.force-ssl'];
@@ -68,11 +69,10 @@ function oAuthHandler(code, oauth2Client) {
     }
     oauth2Client.credentials = token;
     storeToken(token);
-    // TODO add twitter hook to write in video description the name of the user that retweets the video tweet
 
-    const tasks = async () => {
+    const tasksYoutube = async () => {
       console.log(
-        'scheduler running...',
+        'scheduler tasksYoutube running...',
         new Date(Date.now()).toLocaleString()
       );
       try {
@@ -92,9 +92,36 @@ function oAuthHandler(code, oauth2Client) {
         console.log('Houve um erro! ', error);
       }
     };
-    tasks();
 
-    cron.schedule('*/3 * * * *', tasks);
+    const tasksTwitter = async () => {
+      console.log(
+        'scheduler tasksTwitter running...',
+        new Date(Date.now()).toLocaleString()
+      );
+      const usersNames = await TWITTER_HANDLER.getRetweetersInfo();
+      try {
+        const description = await VIDEO_JOBS.updateVideoDescription(
+          oauth2Client,
+          VIDEO_ID,
+          usersNames,
+          google
+        );
+        console.log('New description ' + description);
+      } catch (error) {
+        console.log('Houve um erro! ', error);
+      }
+    };
+
+    tasksYoutube();
+    tasksTwitter();
+
+    const scheduleOptions = {
+      scheduled: true,
+      timezone: 'America/Sao_Paulo',
+    };
+
+    cron.schedule('*/3 * * * *', tasksYoutube, scheduleOptions);
+    cron.schedule('*/30 * * * *', tasksTwitter, scheduleOptions);
   });
 }
 
