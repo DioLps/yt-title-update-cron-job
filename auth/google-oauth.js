@@ -1,5 +1,6 @@
 require('dotenv').config();
 const { google } = require('googleapis');
+const cron = require('node-cron');
 const OAuth2 = google.auth.OAuth2;
 const fs = require('fs');
 
@@ -52,7 +53,6 @@ function getUrlOAuth(oauth2Client) {
   });
 }
 
-
 /**
  * OAuthHandler
  *
@@ -61,27 +61,40 @@ function getUrlOAuth(oauth2Client) {
  *
  */
 function oAuthHandler(code, oauth2Client) {
-  oauth2Client.getToken(code, async function (err, token) {
+  oauth2Client.getToken(code, function (err, token) {
     if (err) {
       console.log('Error while trying to retrieve access token', err);
       return;
     }
     oauth2Client.credentials = token;
     storeToken(token);
-    // TODO config cron
     // TODO add twitter hook to write in video description the name of the user that retweets the video tweet
-    const views = await VIDEO_JOBS.getVideoViews(
-      oauth2Client,
-      VIDEO_ID,
-      google
-    );
-    const title = await VIDEO_JOBS.updateVideoTitle(
-      oauth2Client,
-      VIDEO_ID,
-      views,
-      google
-    );
-    console.log('New title ' + title);
+
+    const tasks = async () => {
+      console.log(
+        'scheduler running...',
+        new Date(Date.now()).toLocaleString()
+      );
+      try {
+        const views = await VIDEO_JOBS.getVideoViews(
+          oauth2Client,
+          VIDEO_ID,
+          google
+        );
+        const title = await VIDEO_JOBS.updateVideoTitle(
+          oauth2Client,
+          VIDEO_ID,
+          views,
+          google
+        );
+        console.log('New title ' + title);
+      } catch (error) {
+        console.log('Houve um erro! ', error);
+      }
+    };
+    tasks();
+
+    cron.schedule('*/3 * * * *', tasks);
   });
 }
 
