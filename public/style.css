@@ -24,11 +24,23 @@ body {
 }
 .main__endpoints {
 }
-.main__link{}
+.main__error {
+  color: white;
+  background-color: #e212129e;
+  padding: 8px;
+  border-radius: 4px;
+}
+.main__success {
+  color: white;
+  background-color: #12e2129e;
+  padding: 8px;
+  border-radius: 4px;
+}
+.main__link {
+}
 .endpoints {
 }
 .endpoints__list {
-
 }
 .endpoints__item {
 }

@@ -17,7 +17,7 @@ app.get('/auth', function (req, res) {
     res.redirect(url);
   } catch (error) {
     console.log(error);
-    res.send('Error! 👎🏽');
+    res.sendFile(path.join(__dirname + '/public/erro.html'));
   }
 });
 
@@ -25,10 +25,10 @@ app.get('/oauth2callback', function (req, res) {
   try {
     const code = req.query.code;
     GOOGLE_OAUTH.oAuthHandler(code, oauth2Client);
-    res.send('OK! 👍🏽');
+    res.sendFile(path.join(__dirname + '/public/ok.html'));
   } catch (error) {
     console.log(error);
-    res.send('Error! 👎🏽');
+    res.sendFile(path.join(__dirname + '/public/erro.html'));
   }
 });
 
