@@ -11,5 +11,5 @@ Execute o comando `npm i` no terminal (na pasta do projeto)
 Para o projeto executar é necessário que duas variáveis de ambiente sejam adicionadas em um arquivo .env na raiz do projeto:
 
 .env:<br/>
-  VIDEO_ID="ID DO VIDEO DO YOUTUBE QUE SEU USUÁRIO TEM DIREITOS DE EDIÇÃO"
-  CREDENTIALS='COLE AQUI AS CREDENCIAS DO OAUTH2 DA API DO YOUTUBE NO FORMATO JSON'
+  `VIDEO_ID="ID DO VIDEO DO YOUTUBE QUE SEU USUÁRIO TEM DIREITOS DE EDIÇÃO"`<br/>
+  `CREDENTIALS='COLE AQUI AS CREDENCIAS DO OAUTH2 DA API DO YOUTUBE NO FORMATO JSON'`
