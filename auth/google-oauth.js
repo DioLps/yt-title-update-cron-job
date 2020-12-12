@@ -46,6 +46,10 @@ function oAuthHandler(code, oauth2Client) {
     }
     oauth2Client.credentials = token;
     storeToken(token);
+    // TODO config cron
+    // TODO validate if there is some secret leaked
+    // TODO rewrite the docs comments
+    // TODO add twitter hook to write in video description the name of the user that retweets the video tweet
     const views = await VIDEO_JOBS.getVideoViews(
       oauth2Client,
       VIDEO_ID,
