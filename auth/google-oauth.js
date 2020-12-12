@@ -17,10 +17,7 @@ const TOKEN_PATH = 'auth/youtube-nodejs-quickstart.json';
  *
  */
 function storeToken(token) {
-  fs.writeFile(TOKEN_PATH, JSON.stringify(token), (err) => {
-    if (err) throw err;
-    console.log('Token stored to ' + TOKEN_PATH);
-  });
+  // TODO using the fs.writeFile, create a file on the TOKEN_PATH location with the stringify token as param
 }
 
 /**
@@ -30,13 +27,9 @@ function storeToken(token) {
  *
  */
 function getOauth2Client() {
-  const credentials = JSON.parse(process.env.CREDENTIALS);
-  const oauth2Client = new OAuth2(
-    credentials.web.client_id,
-    credentials.web.client_secret,
-    credentials.web.redirect_uris[0]
-  );
-  return oauth2Client;
+  // TODO use the proces.env.CREDENTIALS to get your oauth2 google's credetials json
+  // TODO parse the json to an object
+  // TODO using the OAuth2 class, create an object called oauth2Client and return it
 }
 
 /**
@@ -47,10 +40,7 @@ function getOauth2Client() {
  *
  */
 function getUrlOAuth(oauth2Client) {
-  return oauth2Client.generateAuthUrl({
-    access_type: 'offline',
-    scope: SCOPES,
-  });
+  // TODO use the client to generate an oauth url (access_type:offline and scope are required params)
 }
 
 /**
@@ -61,41 +51,12 @@ function getUrlOAuth(oauth2Client) {
  *
  */
 function oAuthHandler(code, oauth2Client) {
-  oauth2Client.getToken(code, function (err, token) {
-    if (err) {
-      console.log('Error while trying to retrieve access token', err);
-      return;
-    }
-    oauth2Client.credentials = token;
-    storeToken(token);
-    // TODO add twitter hook to write in video description the name of the user that retweets the video tweet
-
-    const tasks = async () => {
-      console.log(
-        'scheduler running...',
-        new Date(Date.now()).toLocaleString()
-      );
-      try {
-        const views = await VIDEO_JOBS.getVideoViews(
-          oauth2Client,
-          VIDEO_ID,
-          google
-        );
-        const title = await VIDEO_JOBS.updateVideoTitle(
-          oauth2Client,
-          VIDEO_ID,
-          views,
-          google
-        );
-        console.log('New title ' + title);
-      } catch (error) {
-        console.log('Houve um erro! ', error);
-      }
-    };
-    tasks();
-
-    cron.schedule('*/3 * * * *', tasks);
-  });
+  // TODO use the client to get the token
+  // TODO update the client credencials
+  // TODO store the token
+  // TODO call the async function VIDEO_JOBS.getVideoViews to get the views
+  // TODO call the async function VIDEO_JOBS.updateVideoTitle to update the video title
+  // TODO create a funtion called taks, call it once and call the scheduler of the node cron to execute it every 3 minutes
 }
 
 module.exports = { getOauth2Client, getUrlOAuth, oAuthHandler };

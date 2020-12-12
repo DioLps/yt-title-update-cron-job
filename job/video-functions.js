@@ -8,20 +8,9 @@
  *
  */
 function getVideoViews(auth, VIDEO_ID, google) {
-  const service = google.youtube('v3');
-  return new Promise((resolve, reject) => {
-    service.videos.list(
-      {
-        auth: auth,
-        part: 'statistics',
-        id: VIDEO_ID,
-      },
-      function (err, response) {
-        if (err) return reject(err);
-        resolve(response.data.items[0].statistics.viewCount);
-      }
-    );
-  });
+  // TODO using the google param asing a service variable with the youtube v3 api object
+  // TODO in the next step when you will use the service.video.list, the auth, a part='statistics' and the video id are required as the first param, the secound is the callback where the views are resolved
+  // TODO create and return a promise that resolves the service.video.list result (you will have to find inside the response the viewCount property)
 }
 
 /**
@@ -34,20 +23,9 @@ function getVideoViews(auth, VIDEO_ID, google) {
  *
  */
 function getVideoSnippet(auth, VIDEO_ID, google) {
-  const service = google.youtube('v3');
-  return new Promise((resolve, reject) => {
-    service.videos.list(
-      {
-        auth: auth,
-        part: 'snippet',
-        id: VIDEO_ID,
-      },
-      function (err, response) {
-        if (err) return reject(err);
-        resolve(response.data.items[0].snippet);
-      }
-    );
-  });
+  // TODO using the google param asing a service variable with the youtube v3 api object
+  // TODO in the next step when you will use the service.video.list, the auth, a part='snippet' and the video id are required as the first param, the secound is the callback where the views are resolved
+  // TODO create and return a promise that resolves the service.video.list result (you will have to find inside the response the snippet property)
 }
 
 /**
@@ -61,25 +39,12 @@ function getVideoSnippet(auth, VIDEO_ID, google) {
  *
  */
 async function updateVideoTitle(auth, VIDEO_ID, views, google) {
-  const service = google.youtube('v3');
-  const snippet = await getVideoSnippet(auth, VIDEO_ID, google);
-  snippet.title = `Este vídeo tem ${views} views`;
-  return new Promise((resolve, reject) => {
-    service.videos.update(
-      {
-        auth,
-        part: 'snippet',
-        resource: {
-          id: VIDEO_ID,
-          snippet,
-        },
-      },
-      function (err, response) {
-        if (err) return reject(err);
-        resolve(response.data.snippet.title);
-      }
-    );
-  });
+  // TODO using the google param asing a service variable with the youtube v3 api object
+  // TODO create a variable snippet with the return value from a call to getVideoSnippet method
+  // TODO asign the snippet.title property with the new title
+  // TODO in the next step when you will use the service.video.update, the auth, a part='snippet' and
+  // an object with the video id and the snippet property are required as the first param, the secound is the callback where the views are resolved
+  // TODO create and return a promise that resolves the service.video.update result (you will have to find inside the response the title property)
 }
 
 module.exports = { getVideoViews, updateVideoTitle };
