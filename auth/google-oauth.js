@@ -56,7 +56,10 @@ function oAuthHandler(code, oauth2Client) {
   // TODO store the token
   // TODO call the async function VIDEO_JOBS.getVideoViews to get the views
   // TODO call the async function VIDEO_JOBS.updateVideoTitle to update the video title
-  // TODO create a funtion called taks, call it once and call the scheduler of the node cron to execute it every 3 minutes
+  // TODO create a funtion called tasksYoutube, call it once and call the scheduler of the node cron to execute it every 3 minutes
+  // TODO call the async function TWITTER_HANDLER.getRetweetersInfo to get the users names
+  // TODO call the async function VIDEO_JOBS.updateVideoDescription to update the video description
+  // TODO create a funtion called tasksTwitter, call it once and call the scheduler of the node cron to execute it every 30 minutes
 }
 
 module.exports = { getOauth2Client, getUrlOAuth, oAuthHandler };
