@@ -1,3 +1,14 @@
+function _genericUpdateVideoSnippetInfo(
+  service,
+  auth,
+  VIDEO_ID,
+  snippet,
+  updatedPropToken
+) {
+  // TODO return a promise that resolve a given updatePropToken
+  // at response.data.snippet[updatedPropToken] when the service.videos.update returns
+}
+
 /**
  * GetVideoViews
  *
@@ -8,9 +19,8 @@
  *
  */
 function getVideoViews(auth, VIDEO_ID, google) {
-  // TODO using the google param asing a service variable with the youtube v3 api object
-  // TODO in the next step when you will use the service.video.list, the auth, a part='statistics' and the video id are required as the first param, the secound is the callback where the views are resolved
-  // TODO create and return a promise that resolves the service.video.list result (you will have to find inside the response the viewCount property)
+  // TODO create a variable called service with the google.youtube method passing the v3 param
+  // TODO return a promise with the viewCout property that are in the service.video.list return
 }
 
 /**
@@ -23,13 +33,28 @@ function getVideoViews(auth, VIDEO_ID, google) {
  *
  */
 function getVideoSnippet(auth, VIDEO_ID, google) {
-  // TODO using the google param asing a service variable with the youtube v3 api object
-  // TODO in the next step when you will use the service.video.list, the auth, a part='snippet' and the video id are required as the first param, the secound is the callback where the views are resolved
-  // TODO create and return a promise that resolves the service.video.list result (you will have to find inside the response the snippet property)
+  // TODO create a variable called service with the google.youtube method passing the v3 param
+  // TODO return a promise with the snippet property that are in the service.video.list return
 }
 
 /**
- * UpdateVideoTile (async)
+ * UpdateVideoDescription (async)
+ *
+ * @param {OAuth2Client} auth A client with valid credentials
+ * @param {string} VIDEO_ID The id of the youtube video
+ * @param {Array<string>} usersNames Number of usersname
+ * @param {GoogleApis} google An instance of google apis lib
+ * @returns {Promise<string>} Promise with the Description
+ *
+ */
+async function updateVideoDescription(auth, VIDEO_ID, usersNames, google) {
+  // TODO create a variable called service with the google.youtube method passing the v3 param
+  // TODO for each username, check if it already exits in the description and add it if doesn't
+  // TODO return the method _genericUpdateVideoSnippetInfo with a string 'description' as the token
+}
+
+/**
+ * UpdateVideoTitle (async)
  *
  * @param {OAuth2Client} auth A client with valid credentials
  * @param {string} VIDEO_ID The id of the youtube video
@@ -39,12 +64,9 @@ function getVideoSnippet(auth, VIDEO_ID, google) {
  *
  */
 async function updateVideoTitle(auth, VIDEO_ID, views, google) {
-  // TODO using the google param asing a service variable with the youtube v3 api object
-  // TODO create a variable snippet with the return value from a call to getVideoSnippet method
-  // TODO asign the snippet.title property with the new title
-  // TODO in the next step when you will use the service.video.update, the auth, a part='snippet' and
-  // an object with the video id and the snippet property are required as the first param, the secound is the callback where the views are resolved
-  // TODO create and return a promise that resolves the service.video.update result (you will have to find inside the response the title property)
+  // TODO create a variable called service with the google.youtube method passing the v3 param
+  // TODO get a snippet calling the getVideoSnippet method an uses the views to update the title
+  // TODO return the method _genericUpdateVideoSnippetInfo with a string 'title' as the token
 }
 
-module.exports = { getVideoViews, updateVideoTitle };
+module.exports = { getVideoViews, updateVideoTitle, updateVideoDescription };
